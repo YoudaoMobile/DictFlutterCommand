@@ -1,5 +1,5 @@
-= DictFlutterCommand
+= dfb
 
 Generate this with
-    DictFlutterCommand _doc
+    dfb _doc
 After you have described your command line interface

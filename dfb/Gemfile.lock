@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    DictFlutterCommand (0.0.1)
+    dfb (0.0.2)
       gli (= 2.19.0)
 
 GEM
@@ -52,8 +52,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  DictFlutterCommand!
   aruba
+  dfb!
   rake
   rdoc
 

@@ -1,6 +1,0 @@
-= DictFlutterCommand
-
-Describe your project here
-
-:include:DictFlutterCommand.rdoc
-
