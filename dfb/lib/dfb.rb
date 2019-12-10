@@ -43,6 +43,11 @@ module Dfb
      end
      
      def self.create_package(packageName)
+         p '检查flutter环境'
+         if self.checkIsHasFlutter == nil
+            p '安装flutter...'
+            self.init_flutter
+         end
          p "创建flutter package"
          command = "cd ~/YDDictFlutter/dict-ios-flutter-bridge/Embed/flutter_module/Business;flutter create --template=package " + packageName
          system command
@@ -55,6 +60,26 @@ module Dfb
      
      def self.flutter_clean
           system "cd ~/YDDictFlutter/dict-ios-flutter-bridge/Embed/flutter_module;flutter clean;"
+     end
+
+     def self.checkFlutter
+        outputs = system 'flutter --version'
+        if outputs == nil
+            p '安装flutter...'
+            self.init_flutter
+        else
+            p '已安装flutter环境'
+        end 
+     end
+
+     def self.project
+        outputs = system 'cd ~;mkdir YDDictFlutter'
+        if outputs == false
+            p '正在下载工程..'
+            self.clone
+        else
+            p '工程已存在'
+        end
      end
      
    end
