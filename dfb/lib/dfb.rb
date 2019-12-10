@@ -11,8 +11,8 @@ module Dfb
      
      def self.clone
          p "git clone ..."
-         system 'mkdir ~/YDDictFlutter; cd ~/YDDictFlutter;git clone  git@gitlab.corp.youdao.com:luna-dev/dict-ios-flutter-bridge.git;'
-         system "cd ~/YDDictFlutter/dict-ios-flutter-bridge;git submodule init;git submodule update;"
+         system 'mkdir ~/YDDictFlutter; cd ~/YDDictFlutter;git clone  git@gitlab.corp.youdao.com:luna-dev/YDNativeFlutterBridge.git;'
+         system "cd ~/YDDictFlutter/YDNativeFlutterBridge;git submodule init;git submodule update;"
      end
      
      def self.init_flutter
@@ -31,31 +31,31 @@ module Dfb
          self.flutter_clean
          self.pub_get
          #打包
-         system "cd ~/YDDictFlutter/dict-ios-flutter-bridge/android_example;./gradlew assembleDebug;"
+         system "cd ~/YDDictFlutter/YDNativeFlutterBridge/android_example;./gradlew assembleDebug;"
          #装载，运行
-         system "cd ~/YDDictFlutter/dict-ios-flutter-bridge/android_example/app/build/outputs/apk/debug/;adb install -r app-debug.apk;adb shell am start -n com.example.android_example/com.youdao.flutter.FlutterBaseActivity;"
+         system "cd ~/YDDictFlutter/YDNativeFlutterBridge/android_example/app/build/outputs/apk/debug/;adb install -r app-debug.apk;adb shell am start -n com.example.android_example/com.youdao.flutter.FlutterBaseActivity;"
          
      end
      
      def self.attach
          p "执行 flutter attach"
-         system "cd ~/YDDictFlutter/dict-ios-flutter-bridge/Embed/flutter_module;flutter attach;"
+         system "cd ~/YDDictFlutter/YDNativeFlutterBridge/Embed/flutter_module;flutter attach;"
      end
      
      def self.create_package(packageName)
          self.checkEnv
          p "创建flutter package"
-         command = "cd ~/YDDictFlutter/dict-ios-flutter-bridge/Embed/flutter_module/Business;flutter create --template=package " + packageName
+         command = "cd ~/YDDictFlutter/YDNativeFlutterBridge/Embed/flutter_module/Business;flutter create --template=package " + packageName
          system command
-         p "~/YDDictFlutter/dict-ios-flutter-bridge/Embed/flutter_module/Business/" + "packageName"
+         p "~/YDDictFlutter/YDNativeFlutterBridge/Embed/flutter_module/Business/" + packageName
      end
      
      def self.pub_get
-         system "cd ~/YDDictFlutter/dict-ios-flutter-bridge/Embed/flutter_module;sh flutter_pub_get.sh"
+         system "cd ~/YDDictFlutter/YDNativeFlutterBridge/Embed/flutter_module;sh flutter_pub_get.sh"
      end
      
      def self.flutter_clean
-          system "cd ~/YDDictFlutter/dict-ios-flutter-bridge/Embed/flutter_module;flutter clean;"
+          system "cd ~/YDDictFlutter/YDNativeFlutterBridge/Embed/flutter_module;flutter clean;"
      end
      
      def self.checkEnv 

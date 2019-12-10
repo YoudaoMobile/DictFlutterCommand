@@ -3,9 +3,9 @@ require File.join([File.dirname(__FILE__),'lib','dfb','version.rb'])
 spec = Gem::Specification.new do |s|
   s.name = 'dfb'
   s.version = Dfb::VERSION
-  s.author = 'Your Name Here'
-  s.email = 'your@email.address.com'
-  s.homepage = 'http://your.website.com'
+  s.author = 'chedechao'
+  s.email = 'chedechao333@163.com'
+  s.homepage = 'https://github.com/YoudaoMobile/DictFlutterCommand.git'
   s.platform = Gem::Platform::RUBY
   s.summary = 'A description of your project'
   s.files = `git ls-files`.split("
