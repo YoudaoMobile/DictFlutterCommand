@@ -79,7 +79,7 @@ class App
     end
   end
 
-  desc '链接到手机'
+  desc 'attach手机'
   arg_name 'Describe arguments to add here'
   command :attach do |c|
     c.action do |global_options,options,args|
@@ -87,8 +87,8 @@ class App
     end
   end
 
-  desc '创建一个flutter package'
-  arg_name 'Describe arguments to add here'
+  desc '创建业务flutter package'
+  arg_name '后接package name'
   command :create_package do |c|
     c.action do |global_options,options,args|
       Dfb.create_package(args[0])
