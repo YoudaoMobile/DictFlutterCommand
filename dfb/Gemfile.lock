@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    dfb (0.0.8)
+    dfb (1.0.3)
       gli (= 2.19.0)
 
 GEM

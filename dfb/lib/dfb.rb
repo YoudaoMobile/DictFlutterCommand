@@ -6,7 +6,8 @@ module Dfb
      # Your code goes here...
      def self.hello
          p "hello world"
-         system "hello world"
+         system ('echo ' + outputs)
+         system "echo hello world"
      end
      
      def self.clone
@@ -17,7 +18,10 @@ module Dfb
      
      def self.init_flutter
          p "正在配置flutter环境"
-         system "sh install_flutter_env.sh"
+         outputs = File.dirname(__FILE__)
+         outputs = outputs.chop.chop.chop.chop
+         p outputs
+         system "sh " + outputs + "/install_flutter_env.sh"
      end
      
      def self.run_ios
