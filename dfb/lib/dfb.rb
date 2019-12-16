@@ -19,7 +19,7 @@ module Dfb
      def self.init_flutter
          p "正在配置flutter环境"
          outputs = File.dirname(__FILE__)
-         outputs = outputs.chop.chop.chop.chop
+         outputs = outputs.chop.chop.chop.chop #看到这行代码别骂作者，作者也不熟悉ruby，这个意思是说去除/lib
          p outputs
          system "sh " + outputs + "/install_flutter_env.sh"
      end
