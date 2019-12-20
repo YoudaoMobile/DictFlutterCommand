@@ -1,7 +1,7 @@
 #!/usr/bin/ruby
 
 require 'dfb/version.rb'
-require './path_manager.rb'
+require 'path_manager.rb'
 
 # Add requires for other files you add to your project here, so
 # you just need to require this one file in your bin file
@@ -165,9 +165,9 @@ module Dfb
 
 #    Dfb.changePath("/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf")
 #    Dfb.systemCDInProject
-Dfb.attach
+# Dfb.attach
 # Dfb.systemCDInProject
-# Dfb.changePath
+Dfb.changePath
 # Dfb.run_android
 # Dfb.cdPathWithFlutterModule
 # Dfb.cdPathWithAndroidExample
