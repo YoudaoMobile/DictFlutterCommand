@@ -130,7 +130,7 @@ module Dfb
         puts "如果您的工程是YDNativeFlutterBridge 路径是 /Users/chedch/YDDictFlutter/YDNativeFlutterBridge，则输入此路径"
         puts "请输入您的新的YDNativeFlutterBridge工程路径:"
         
-        val = gets
+        val = STDIN.gets
         if val =~ /(.*)\/YDNativeFlutterBridge/ 
             PathManager.inputPath(val.chop)
         else
@@ -167,7 +167,7 @@ module Dfb
 #    Dfb.systemCDInProject
 # Dfb.attach
 # Dfb.systemCDInProject
-# Dfb.changePath
+ Dfb.changePath
 # Dfb.run_android
 # Dfb.cdPathWithFlutterModule
 # Dfb.cdPathWithAndroidExample
