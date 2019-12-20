@@ -47,19 +47,19 @@ class App
     end
   end
 
-  desc '修改当前工程指向的目录'
-  arg_name 'Describe arguments to complete here'
-  command :clone do |c|
-    c.action do |global_options,options,args|
-      Dfb.changePath
-    end
-  end
-
   desc '下载词典flutter工程'
   arg_name 'Describe arguments to complete here'
   command :clone do |c|
     c.action do |global_options,options,args|
       Dfb.clone
+    end
+  end
+
+  desc '修改当前工程指向的目录'
+  arg_name 'Describe arguments to complete here'
+  command :change do |c|
+    c.action do |global_options,options,args|
+      Dfb.changePath
     end
   end
 

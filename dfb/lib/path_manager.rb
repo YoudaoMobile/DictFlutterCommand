@@ -44,7 +44,7 @@ module PathManager
             }
             return true
         else
-            puts "根目录不存在"
+            puts "根目录不存在,请添加！"
             return false
         end
      end

@@ -167,7 +167,7 @@ module Dfb
 #    Dfb.systemCDInProject
 # Dfb.attach
 # Dfb.systemCDInProject
-Dfb.changePath
+# Dfb.changePath
 # Dfb.run_android
 # Dfb.cdPathWithFlutterModule
 # Dfb.cdPathWithAndroidExample
