@@ -16,7 +16,7 @@ module Dfb
      
      def self.clone
         puts "请输入您要放此工程的位置："
-        val = gets
+        val = STDIN.gets
         val = val.chop
         path = val + "/YDNativeFlutterBridge"
         puts "您的工程的路径为" + val + path

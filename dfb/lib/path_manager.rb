@@ -7,7 +7,7 @@ module PathManager
         if self.containsPath
             puts "确定您的新路径？为" + path
             puts "y/n"
-            val = gets
+            val = STDIN.gets
             if val =~ /Y|y/ 
                 self.deletePathFile
                 self.storagePathFile(path)
