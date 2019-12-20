@@ -133,8 +133,10 @@ module Dfb
         val = STDIN.gets
         if val =~ /(.*)\/YDNativeFlutterBridge/ 
             PathManager.inputPath(val.chop)
+            return
         else
             puts "'change path' fails"
+            return
         end
         
      end
