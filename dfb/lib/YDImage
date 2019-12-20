@@ -1,0 +1,55 @@
+#!/usr/bin/env ruby
+
+require 'fileutils'
+
+module YDImagePath
+    
+    def self.printAll(path, isdark = true)
+        system "mkdir " + path + "/image"
+        system "mkdir " + path + "/image/2.0x"
+        system "mkdir " + path + "/image/3.0x"
+        arr = Dir.children(path)
+        # puts arr
+        arr.each { |name|
+            # puts name
+            outputs = name.sub(/\..*/,"")
+            if File.ftype(path + "/" + name) == "directory" 
+                next
+            end
+
+            if outputs =~ /(.*)@2x/ || outputs =~ /(.*)@3x/
+                if outputs =~ /(.*)@2x/
+                    # puts outputs
+                    FileUtils.cp(path + "/" + name, path + "/image/2.0x")
+                    File.rename(path + "/image/2.0x/" + name, path + "/image/2.0x/" + name.sub(/\@2x/,isdark ? "_dark" : ""))
+                end
+    
+                if outputs =~ /(.*)@3x/
+                    # puts outputs
+                    FileUtils.cp(path + "/" + name, path + "/image/3.0x")
+                    File.rename(path + "/image/3.0x/" + name, path + "/image/3.0x/" + name.sub(/\@3x/, isdark ? "_dark" : "") )
+                end
+            else
+                FileUtils.cp(path + "/" + name, path + "/image")
+                if isdark
+                    File.rename(path + "/image/" + name, path + "/image/" + name.sub(/\.png/, "_dark.png") )
+                end
+            
+                puts "static const " + outputs + " = \"" + outputs + ".png\";"
+            end
+        }   
+        arr.each { |name|
+            if File.ftype(path + "/" + name) == "directory" 
+                next
+            end
+            name = name.sub(/\..*/,"")
+            if !(name =~ /(.*)@2x/ || name =~ /(.*)@3x/)
+                puts "var " + name + ";"
+            end
+
+        }
+    end
+
+end
+
+YDImagePath.printAll("/Users/chedch/Downloads/词典_单词本_切图/DarkMode",true)

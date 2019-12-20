@@ -1,8 +1,12 @@
+#!/usr/bin/ruby
+
 require 'dfb/version.rb'
+require './path_manager.rb'
 
 # Add requires for other files you add to your project here, so
 # you just need to require this one file in your bin file
-module Dfb
+# https://www.cnblogs.com/rubylouvre/archive/2011/04/04/2005122.html
+module Dfb 
      # Your code goes here...
      def self.hello
          p "hello world"
@@ -11,55 +15,80 @@ module Dfb
      end
      
      def self.clone
-         p "git clone ..."
-         system 'mkdir ~/YDDictFlutter; cd ~/YDDictFlutter;git clone  git@gitlab.corp.youdao.com:luna-dev/YDNativeFlutterBridge.git;'
-         system "cd ~/YDDictFlutter/YDNativeFlutterBridge;git submodule init;git submodule update;"
+        puts "请输入您要放此工程的位置："
+        val = gets
+        val = val.chop
+        path = val + "/YDNativeFlutterBridge"
+        puts "您的工程的路径为" + val + path
+        PathManager.inputPath(path)
+        puts "git clone ..."
+
+        system 'cd ' + val +'; git clone  git@gitlab.corp.youdao.com:luna-dev/YDNativeFlutterBridge.git;'
+        system 'cd ' + path + ';git submodule init;git submodule update;'
      end
      
      def self.init_flutter
-         p "正在配置flutter环境"
-         outputs = File.dirname(__FILE__)
-         outputs = outputs.chop.chop.chop.chop #看到这行代码别骂作者，作者也不熟悉ruby，这个意思是说去除/lib
-         p outputs
-         system "sh " + outputs + "/install_flutter_env.sh"
+        puts "正在配置flutter环境"
+        outputs = File.dirname(__FILE__)
+        outputs = outputs.chop.chop.chop.chop #看到这行代码别骂作者，作者也不熟悉ruby，这个意思是说去除/lib
+        puts outputs
+        system "sh " + outputs + "/install_flutter_env.sh"
      end
      
      def self.run_ios
-         #ideviceinstaller https://www.jianshu.com/p/92273e86ab2b
+        #ideviceinstaller https://www.jianshu.com/p/92273e86ab2b
         #  system "pod install"
+        if self.isHasProject == false
+            return
+        end
         p "还没有实现"
      end
      
      def self.run_android
-         #https://blog.csdn.net/tymatlab/article/details/80989769
-         self.flutter_clean
-         self.pub_get
-         #打包
-         system "cd ~/YDDictFlutter/YDNativeFlutterBridge/android_example;./gradlew assembleDebug;"
-         #装载，运行
-         system "cd ~/YDDictFlutter/YDNativeFlutterBridge/android_example/app/build/outputs/apk/debug/;adb install -r app-debug.apk;adb shell am start -n com.example.android_example/com.youdao.flutter.FlutterBaseActivity;"
+        #https://blog.csdn.net/tymatlab/article/details/80989769
+        if self.isHasProject == false
+            return
+        end
+        self.flutter_clean
+        self.pub_get
+        #打包
+        system self.cdPathWithAndroidExample + ";./gradlew assembleDebug;"
+        #装载，运行
+        system self.cdPathWithAndroidExample + "/app/build/outputs/apk/debug/;adb install -r app-debug.apk;adb shell am start -n com.example.android_example/.MainActivity;"
          
      end
      
      def self.attach
-         p "执行 flutter attach"
-         system "cd ~/YDDictFlutter/YDNativeFlutterBridge/Embed/flutter_module;flutter attach;"
+        if self.isHasProject == false
+            return
+        end
+        puts "执行 flutter attach"
+        system self.cdPathWithFlutterModule + ";flutter attach;"
      end
      
      def self.create_package(packageName)
+        if self.isHasProject == false
+            return
+        end
          self.checkEnv
-         p "创建flutter package"
-         command = "cd ~/YDDictFlutter/YDNativeFlutterBridge/Embed/flutter_module/Business;flutter create --template=package " + packageName
+         puts "创建flutter package"
+         command = self.cdPathWithFlutterModule + "/Business;flutter create --template=package " + packageName
+         p command
          system command
-         p "~/YDDictFlutter/YDNativeFlutterBridge/Embed/flutter_module/Business/" + packageName
      end
      
      def self.pub_get
-         system "cd ~/YDDictFlutter/YDNativeFlutterBridge/Embed/flutter_module;sh flutter_pub_get.sh"
+        if self.isHasProject == false
+            return
+        end
+         system self.cdPathWithFlutterModule + ";sh flutter_pub_get.sh"
      end
      
      def self.flutter_clean
-          system "cd ~/YDDictFlutter/YDNativeFlutterBridge/Embed/flutter_module;flutter clean;"
+        if self.isHasProject == false
+            return
+        end
+          system self.cdPathWithFlutterModule + ";flutter clean;"
      end
      
      def self.checkEnv 
@@ -70,21 +99,77 @@ module Dfb
      def self.checkFlutter
         outputs = system 'flutter --version'
         if outputs == nil
-            p '安装flutter...'
+            puts '安装flutter...'
             self.init_flutter
         else
-            p '已安装flutter环境'
+            puts '已安装flutter环境'
         end 
      end
 
      def self.checkProject
-        outputs = system 'cd ~;mkdir YDDictFlutter'
+        outputs = system self.cdPathWithFlutterModule + ";"
         if outputs == false
-            p '工程已存在'
+            puts '工程已存在'
         else
-            p '正在下载工程..'
+            puts '正在下载工程..'
             self.clone
         end
      end
-     
+
+     def self.isHasProject
+        outputs = system self.cdPathWithFlutterModule + ";"
+        if outputs == false
+            puts '工程不存在'
+            return false
+        else
+            return true
+        end
+     end
+
+     def self.changePath
+        puts "如果您的工程是YDNativeFlutterBridge 路径是 /Users/chedch/YDDictFlutter/YDNativeFlutterBridge，则输入此路径"
+        puts "请输入您的新的YDNativeFlutterBridge工程路径:"
+        
+        val = gets
+        if val =~ /(.*)\/YDNativeFlutterBridge/ 
+            PathManager.inputPath(val.chop)
+        else
+            puts "'change path' fails"
+        end
+        
+     end
+
+     def self.projectPath 
+        return PathManager.outputPath
+     end
+
+     def self.cdPath(path)
+        if PathManager.containsPath 
+            puts '当前目录：'
+            puts self.projectPath + path
+            return "cd " + self.projectPath + path
+        else
+            puts "路径有错误"
+            return ""
+        end
+     end
+
+     def self.cdPathWithFlutterModule
+        self.cdPath("/Embed/flutter_module")
+     end
+
+     def self.cdPathWithAndroidExample
+        self.cdPath("/android_example")
+     end
    end
+
+#    Dfb.changePath("/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf/user/asdfadfasdf/sdfasdf")
+#    Dfb.systemCDInProject
+Dfb.attach
+# Dfb.systemCDInProject
+# Dfb.changePath
+# Dfb.run_android
+# Dfb.cdPathWithFlutterModule
+# Dfb.cdPathWithAndroidExample
+
+

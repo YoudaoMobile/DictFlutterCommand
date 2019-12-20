@@ -1,5 +1,6 @@
 # Ensure we require the local version and not one we might have installed already
 require File.join([File.dirname(__FILE__),'lib','dfb','version.rb'])
+require File.join([File.dirname(__FILE__),'lib','path_manager.rb'])
 spec = Gem::Specification.new do |s|
   s.name = 'dfb'
   s.version = Dfb::VERSION
@@ -10,7 +11,7 @@ spec = Gem::Specification.new do |s|
   s.summary = 'A description of your project'
   s.files = `git ls-files`.split("
 ")
-  s.require_paths << 'lib'
+  s.require_paths = 'lib'
   s.extra_rdoc_files = ['README.rdoc','dfb.rdoc']
   s.rdoc_options << '--title' << 'dfb' << '--main' << 'README.rdoc' << '-ri'
   s.bindir = 'bin'
